@@ -11,13 +11,7 @@ public class App2
     public App2() {}
 
     public static void main(String[] args) {
-if (true) {
         System.out.println(new App2().getMessage());
-} else if (false) {
-        System.out.println(new App2().getMessage());
-} else {
-        System.out.println(new App2().getMessage());
-}
     }
 
     private final String getMessage() {
