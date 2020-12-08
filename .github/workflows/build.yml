@@ -10,7 +10,8 @@ jobs:
     name: Check context
     runs-on: ubuntu-latest
     outputs:
-      app_context: ${{ steps.check.outputs.app_context }} 
+      app_context_1: ${{ steps.check.outputs.app_context_1 }}
+      app_context_2: ${{ steps.check.outputs.app_context_2 }} 
     steps:
       - uses: actions/checkout@v2
         with:
@@ -28,12 +29,12 @@ jobs:
             echo $file
             if [[ $file == "src/app1"* ]]; then
               echo "This modified file is in the 'app1' folder."
-              echo "::set-output name=app_context::app1"
+              echo "::set-output name=app_context_1::true"
               break
             fi
             if [[ $file == "src/app2"* ]]; then
               echo "This modified file is in the 'app2' folder."
-              echo "::set-output name=app_context::app2"
+              echo "::set-output name=app_context_2::true"
               break
             fi
           done < files.txt
@@ -63,14 +64,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze App 1
-        if: needs.check_context.outputs.app_context == 'app1'
+        if: needs.check_context.outputs.app_context_1 == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         working-directory: src/app1
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       - name: Build and analyze App 2
-        if: needs.check_context.outputs.app_context == 'app2'
+        if: needs.check_context.outputs.app_context_2 == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
