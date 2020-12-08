@@ -10,7 +10,7 @@
     <maven.compiler.target>1.6</maven.compiler.target>
 
     <sonar.projectKey>wadmiraal_github_mono-repo-test_app1</sonar.projectKey>
-    <sonar.projectName>mono-repo-test/app1</sonar.projectKey>
+    <sonar.projectName>mono-repo-test/app1</sonar.projectName>
     <sonar.organization>wouter-admiraal-sonarsource-github</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sources>src/main/</sonar.sources>
