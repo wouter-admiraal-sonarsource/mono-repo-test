@@ -13,6 +13,8 @@ jobs:
       app_context: ${{ steps.check.outputs.app_context }} 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
       - name: Check context
         id: check
         run: |
