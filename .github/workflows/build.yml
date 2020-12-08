@@ -24,12 +24,12 @@ jobs:
           while IFS= read -r file
           do
             echo $file
-            if [[ $file eq app1/* ]]; then
+            if [[ $file == "app1/*" ]]; then
               echo "This modified file under the 'app1' folder."
               echo "::set-output name=app_context::app1"
               break
             fi
-            if [[ $file eq app2/* ]]; then
+            if [[ $file == "app2/*" ]]; then
               echo "This modified file under the 'app2' folder."
               echo "::set-output name=app_context::app2"
               break
