@@ -12,7 +12,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
+      - name: check modified files
+        id: check_context
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+          
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file eq app1/* ]]; then
+              echo "This modified file under the 'app1' folder."
+              echo "::set-output name=app_context::app1"
+              break
+            fi
+            if [[ $file eq app2/* ]]; then
+              echo "This modified file under the 'app2' folder."
+              echo "::set-output name=app_context::app2"
+              break
+            fi
+          done < files.txt
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -30,12 +52,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze App 1
+        if: needs.check_context.outputs.app_context == 'app1'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         working-directory: src/app1
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       - name: Build and analyze App 2
+        if: needs.check_context.outputs.app_context == 'app2'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
