@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: check modified files
+      - name: Check context
         id: check_context
         run: |
           echo "=============== list modified files ==============="
@@ -24,13 +24,13 @@ jobs:
           while IFS= read -r file
           do
             echo $file
-            if [[ $file == "app1/*" ]]; then
-              echo "This modified file under the 'app1' folder."
+            if [[ $file == "src/app1"* ]]; then
+              echo "This modified file is in the 'app1' folder."
               echo "::set-output name=app_context::app1"
               break
             fi
-            if [[ $file == "app2/*" ]]; then
-              echo "This modified file under the 'app2' folder."
+            if [[ $file == "src/app2"* ]]; then
+              echo "This modified file is in the 'app2' folder."
               echo "::set-output name=app_context::app2"
               break
             fi
