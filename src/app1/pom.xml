@@ -9,7 +9,7 @@
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
 
-    <sonar.projectKey>mono-repo-test_app1</sonar.projectKey>
+    <sonar.projectKey>wouter-admiraal-sonarsource_mono-repo-test</sonar.projectKey>
     <sonar.projectName>mono-repo-test/app1</sonar.projectName>
     <sonar.sources>src/main/</sonar.sources>
     <sonar.tests>src/test/</sonar.tests>
